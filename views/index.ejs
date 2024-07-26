@@ -13,7 +13,12 @@
             <h3 class="user">@<%= post.username  %></h3>
             <h5 class="dist">@<%= post.district  %></h4>
             <h5 class="status">@<%= post.status  %></h4>
+            <br>
+            <a href="http://localhost:8080/posts/<%=post.id  %>">see in details</a>
         </div>
         <%} %>
+        <br>
+        <br>
+        <a href="http://localhost:8080/posts/new">Create new contact</a>
 </body>
 </html>
