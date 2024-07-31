@@ -1,5 +1,11 @@
  const {faker} = require('@faker-js/faker');
 
+const connection = mysql.createConnection({
+   host: "localhost",
+   user: "root",
+   database: "delta_app",
+})
+
  let createRandomuser = () => {
     return{
     userId: faker.datatype.uuid(),
