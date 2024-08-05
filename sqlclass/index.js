@@ -7,6 +7,7 @@ const path =require("path");
 const methodOverride = require("method-override");
 
 app.use(methodOverride("_method"));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.urlencoded({extended: true}));
 
 app.set("view engine","ejs");
@@ -38,7 +39,7 @@ app.get("/home", (req,res) =>{
             connection.query(q,(err, result) => {
                 if (err) throw err;
                 let count = result[0]["count(*)"];
-                res.render("home.ejs",{count});
+                res.send("home.ejs",{count});
             });
         } catch (err) {
             console.log(err);
@@ -90,7 +91,29 @@ app.patch("/user/:id", (req,res) => {
         console.log(err);
         res.send("some error in DB");
     }
-})
+});
+
+app.get("/newuser",(req,res)=>{
+   res.render("addusers.ejs");
+});
+
+
+app.post("/newuser", (req, res) => {
+    let { id, username, email, password } = req.body;
+
+    // SQL query to insert data
+    let q = 'INSERT INTO user (id, username, email, password) VALUES (?, ?, ?, ?)';
+    
+    // Execute the query with parameterized inputs
+    connection.query(q, [id, username, email, password], (err, result) => {
+        if (err) {
+            console.error(err);
+            res.send("Error inserting data into the database");
+        } else {
+            res.send("New user is added to the databases successfully !");
+        }
+    });
+});
 
 app.listen(port, ()=>{
     console.log(`server is listening to port no ${port}`)
